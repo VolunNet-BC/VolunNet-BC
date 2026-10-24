@@ -2,55 +2,67 @@ import os
 import requests
 from supabase import create_client, Client
 
+# Get credentials from GitHub Secrets
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
+print("--- DIAGNOSTIC CHECK ---")
+print(f"SUPABASE_URL present: {bool(SUPABASE_URL)}")
+print(f"SUPABASE_KEY present: {bool(SUPABASE_KEY)}")
+
 if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("Missing Supabase credentials in environment variables.")
+    print("❌ ERROR: Missing Supabase secrets in GitHub Repository Settings!")
+    exit(1)
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+try:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    print("✅ Successfully initialized Supabase client.")
+except Exception as e:
+    print(f"❌ Failed to connect to Supabase: {e}")
+    exit(1)
 
-def fetch_and_ingest_opportunities():
-    print("⚡ Starting VolunNet BC API Ingestion Pipeline...")
+def main():
+    print("⚡ Fetching opportunities from VolunteerConnector JSON API...")
+    url = "https://www.volunteerconnector.org/api/search/"
+    headers = {"User-Agent": "Mozilla/5.0"}
     
-    # VolunteerConnector Free Public JSON Search API
-    api_url = "https://www.volunteerconnector.org/api/search/"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
-    
-    response = requests.get(api_url, headers=headers)
-    if response.status_code != 200:
-        print(f"❌ Failed to fetch API. Status code: {response.status_code}")
-        return
-
-    data = response.json()
-    results = data.get("results", [])
-    print(f"🔍 Retrieved {len(results)} opportunities from VolunteerConnector API.")
-
-    for item in results:
-        title = item.get("title", "Volunteer Position")
-        org_data = item.get("organization", {})
-        org_name = org_data.get("name", "Metro Vancouver Non-Profit") if isinstance(org_data, dict) else "Community Partner"
-        link = item.get("url", "https://www.volunteerconnector.org")
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        print(f"API Response Status Code: {response.status_code}")
         
-        # Prepare object for Supabase schema
-        payload = {
-            "title": title,
-            "organization": org_name,
-            "description": item.get("description", "Community opportunity sourced via VolunNet BC pipeline.")[:300],
-            "city": "Metro Vancouver",
-            "category": "Youth & Community",
-            "hours_offered": 3,
-            "application_url": link,
-            "is_active": True
-        }
-        
-        try:
-            supabase.table("listings").insert(payload).execute()
-            print(f"✅ Ingested: {title}")
-        except Exception as e:
-            print(f"⚠️ Notice for {title}: {e}")
+        if response.status_code == 200:
+            data = response.json()
+            results = data.get("results", [])
+            print(f"🔍 Found {len(results)} opportunities!")
+            
+            for item in results[:5]:  # Process first 5 items
+                title = item.get("title", "Volunteer Opportunity")
+                org_info = item.get("organization", {})
+                org_name = org_info.get("name", "Community Non-Profit") if isinstance(org_info, dict) else "Community Non-Profit"
+                link = item.get("url", "https://www.volunteerconnector.org")
+                
+                payload = {
+                    "title": title,
+                    "organization": org_name,
+                    "description": "Opportunity ingested via VolunNet BC automated pipeline.",
+                    "city": "Metro Vancouver",
+                    "category": "Community Service",
+                    "hours_offered": 3,
+                    "application_url": link,
+                    "is_active": True
+                }
+                
+                try:
+                    supabase.table("listings").insert(payload).execute()
+                    print(f"✅ Ingested: {title}")
+                except Exception as db_err:
+                    print(f"⚠️ DB Notice for '{title}': {db_err}")
+        else:
+            print(f"❌ API call failed with code {response.status_code}")
+            
+    except Exception as e:
+        print(f"❌ Script execution error: {e}")
+        exit(1)
 
 if __name__ == "__main__":
-    fetch_and_ingest_opportunities()
+    main()
