@@ -1,5 +1,0 @@
-- name: Run Scraper Script
-        env:
-          SUPABASE_URL: "https://tfzjrskibboylxfhsdxwo.supabase.co"
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        run: python scraper.py
