@@ -136,6 +136,7 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:15px}
 dialog{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text);padding:20px;max-width:380px;width:92vw}
 dialog::backdrop{background:rgba(3,10,20,.7)}
 #adlg input{width:100%;padding:10px;margin:4px 0 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:400 16px "Source Sans 3",sans-serif}
+#rdlg select,#rdlg input{width:100%;padding:10px;margin:4px 0 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:400 16px "Source Sans 3",sans-serif}
 </style>
 </head>
 <body>
@@ -146,7 +147,7 @@ dialog::backdrop{background:rgba(3,10,20,.7)}
 <svg width="40" height="40" viewBox="0 0 200 200" aria-hidden="true"><g stroke="#F4EFE3" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M100 40L58 74M100 40L142 74" stroke-width="3.5" opacity=".55"/><path d="M58 74L100 156L142 74" stroke-width="17"/></g><g fill="#F4EFE3"><circle cx="58" cy="74" r="12"/><circle cx="142" cy="74" r="12"/></g><circle cx="100" cy="40" r="14" fill="#F5B03C"/></svg>
 VolunNet<span>BC</span></a>
 <span class="sp"></span>
-<a class="nl" href="#listings">Roles</a><a class="nl" href="#passport">Passport</a>
+<a class="nl" href="#listings">Roles</a><a class="nl" href="#passport">Passport</a><a class="nl" href="/submit.html">Submit a listing</a>
 <button class="tg" id="acct" type="button">Sign in</button><button class="tg" id="theme" type="button" aria-label="Switch between light and dark mode">Dark mode</button>
 </nav>
 <div class="hero-grid">
@@ -216,7 +217,8 @@ VolunNet<span>BC</span></a>
 </main>
 
 <div id="wov" role="dialog" aria-modal="true" aria-label="Your VolunNet Wrapped" hidden><div class="wcard s0" id="wcard"><div class="wbars" id="wbars"></div><button class="wx" id="wx" type="button">Close</button><div id="wbody"></div><div class="wnav"><button id="wprev" type="button">Back</button><button id="wnext" type="button">Next</button></div></div></div>
-<footer class="wrap">VolunNetBC · Made in British Columbia. Every listing links to the organization’s own application page. Always confirm details with the organization before you apply.</footer>
+<dialog id="rdlg"><h3 style="margin:0 0 8px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-size:26px">Report this listing</h3><label for="rwhy">What’s wrong?</label><select id="rwhy"><option>Wrong or outdated info</option><option>Position is filled or expired</option><option>Not appropriate for students</option><option>Other</option></select><label for="rnote">Details (optional)</label><input id="rnote" maxlength="300"><p class="msg" id="rmsg" aria-live="polite"></p><div class="pform"><button class="btn" id="rsend" type="button">Send report</button><button class="btn ghost" id="rcl" type="button">Close</button></div></dialog>
+<footer class="wrap"><p><a href="/submit.html">Submit a listing</a> · <a href="/info.html">About</a> · <a href="/info.html#privacy">Privacy</a></p>VolunNetBC · Made in British Columbia. Every listing links to the organization’s own application page. Always confirm details with the organization before you apply.</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
@@ -267,7 +269,7 @@ $("count").textContent=r.length+(r.length===1?" role":" roles")+(me?" within "+r
 $("onlysaved").textContent="Show saved ("+saved.length+")";$("onlysaved").setAttribute("aria-pressed",onlySaved);
 document.querySelectorAll(".nd").forEach(function(g){g.classList.toggle("on",g.dataset.c===c);g.classList.toggle("far",!!me&&km(me,CC[g.dataset.c])>rad)});
 $("rows").innerHTML=r.length?r.map(function(i){var d=D[i],sv=saved.indexOf(d.id)>=0;
-return '<article class="row"><div class="when"><strong>'+esc(d.c)+'</strong><small>'+esc(d.h)+(me?' · about '+km(me,CC[d.c]).toFixed(1)+' km away':'')+'</small></div><div><h3>'+esc(d.t)+'</h3><p class="org">'+esc(d.o)+'</p><div class="tags"><span class="tag">'+esc(d.k)+'</span><span class="tag">'+esc(d.m)+'</span><span class="tag s">'+(d.v?"Verified "+esc(d.v):d.s==="sample"?"Sample, not verified":"Not yet verified")+'</span></div></div><div class="acts"><button class="btn ghost save" data-s="'+i+'" aria-pressed="'+sv+'">'+(sv?"Saved":"Save")+'</button><button class="btn" data-l="'+i+'">Get hours signed</button></div></article>'}).join(""):'<p class="empty">'+(onlySaved?"You haven’t saved any roles yet. Select Save on a role to keep it here.":me?"No roles within "+rad+" km. Try a wider distance or a different area.":"No roles match those filters. Try a different city or clear the search box.")+'</p>'}
+return '<article class="row"><div class="when"><strong>'+esc(d.c)+'</strong><small>'+esc(d.h)+(me?' · about '+km(me,CC[d.c]).toFixed(1)+' km away':'')+'</small></div><div><h3>'+esc(d.t)+'</h3><p class="org">'+esc(d.o)+'</p><div class="tags"><span class="tag">'+esc(d.k)+'</span><span class="tag">'+esc(d.m)+'</span><span class="tag s">'+(d.v?"Verified "+esc(d.v):d.s==="sample"?"Sample, not verified":"Not yet verified")+'</span></div></div><div class="acts"><button class="btn ghost save" data-s="'+i+'" aria-pressed="'+sv+'">'+(sv?"Saved":"Save")+'</button><button class="btn" data-l="'+i+'">Get hours signed</button><button class="btn ghost" data-r="'+d.id+'">Report</button></div></article>'}).join(""):'<p class="empty">'+(onlySaved?"You haven’t saved any roles yet. Select Save on a role to keep it here.":me?"No roles within "+rad+" km. Try a wider distance or a different area.":"No roles match those filters. Try a different city or clear the search box.")+'</p>'}
 $("loc").onclick=function(){if(!navigator.geolocation){nst("This browser can’t share location. Choose your area instead.");return}
 nst("Finding you…");navigator.geolocation.getCurrentPosition(function(p){me=[p.coords.latitude,p.coords.longitude];$("area").value="";nst("Using your location.");render()},function(){nst("Location is blocked or unavailable. Choose your area instead.")},{timeout:8000})};
 $("area").onchange=function(){me=this.value?CC[this.value]:null;nst(me?"Showing roles near "+this.value+".":"");render()};
@@ -276,8 +278,8 @@ $("nclr").onclick=function(){me=null;$("area").value="";nst("");render()};
 ["q","city","cat","age"].forEach(function(i){$(i).addEventListener("input",render)});
 $("onlysaved").onclick=function(){onlySaved=!onlySaved;render()};
 $("rows").addEventListener("click",function(e){
-var s=e.target.closest("[data-s]"),l=e.target.closest("[data-l]");
-if(s){toggleSave(D[+s.dataset.s].id)}
+var s=e.target.closest("[data-s]"),l=e.target.closest("[data-l]"),rp=e.target.closest("[data-r]");
+if(s){toggleSave(D[+s.dataset.s].id)}if(rp){repId=rp.dataset.r;$("rmsg").textContent="";$("rdlg").showModal()}
 if(l){$("prole").value=l.dataset.l;$("passport").scrollIntoView();$("padd").focus()}});
 
 /* passport */
@@ -383,6 +385,9 @@ if(b&&b.id==="wcopy"){try{navigator.clipboard.writeText(WT).then(function(){b.te
 if(b&&b.id==="wdone"){wclose();return}if(b)return;
 var r=this.getBoundingClientRect();wshow(e.clientX-r.left<r.width*.3?wi-1:wi+1)});
 document.addEventListener("keydown",function(e){if($("wov").hidden)return;if(e.key==="Escape")wclose();if(e.key==="ArrowRight")wshow(wi+1);if(e.key==="ArrowLeft")wshow(wi-1)});
+var repId=null;
+$("rcl").onclick=function(){$("rdlg").close()};
+$("rsend").onclick=async function(){try{var r=await api("/rest/v1/rpc/report_listing",{m:"POST",b:{p_listing:repId,p_reason:$("rwhy").value,p_note:$("rnote").value}});$("rmsg").textContent=r==="ok"?"Thanks. We’ll look at it.":"Couldn’t send that right now.";if(r==="ok")setTimeout(function(){$("rdlg").close()},1200)}catch(e){$("rmsg").textContent="Couldn’t send that right now."}};
 drawMap();render();pr();acctUI();loadListings();
 </script>
 </body>
