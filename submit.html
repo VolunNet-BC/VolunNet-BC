@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Submit a listing · VolunNetBC</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>:root{--bg:#FAF8F2;--s:#fff;--t:#10253d;--m:#566779;--l:#e2ddd0;--b:#0F3F73;--bt:#F4EFE3}@media(prefers-color-scheme:dark){:root{--bg:#081a30;--s:#0e2b4b;--t:#f4efe3;--m:#a9b9ca;--l:#1d4570;--b:#F5B03C;--bt:#0F2A4A;color-scheme:dark}}
+body{margin:0;background:var(--bg);color:var(--t);font:17px/1.55 "Source Sans 3",system-ui,sans-serif}main{max-width:640px;margin:0 auto;padding:24px 20px 60px}
+h1{font:700 44px/1 "Barlow Condensed","Arial Narrow",Impact,sans-serif;margin:8px 0 10px}a{color:var(--b)}label{display:block;font-weight:600;margin-top:12px}
+input,textarea,select{width:100%;padding:11px;margin:4px 0;border-radius:8px;border:1px solid var(--l);background:var(--s);color:var(--t);font:inherit}
+button{background:var(--b);color:var(--bt);border:0;border-radius:8px;padding:11px 18px;font:600 16px inherit;cursor:pointer;margin:10px 8px 0 0}button.g{background:none;color:var(--t);border:1px solid var(--l)}.m{color:var(--m);font-size:15px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:520px){.row{grid-template-columns:1fr}}</style></head><body><main>
+<a href="/">← Back to roles</a><h1>Submit a listing</h1>
+<p>Paste a volunteer posting from an organization’s own page. The AI fills in the details, you check them, and we review everything before it goes live.</p>
+<label for="txt">Posting text</label><textarea id="txt" rows="7" placeholder="Paste the full posting here"></textarea>
+<p class="m">Don’t paste personal information. The text is sent to Google’s Gemini AI to read it.</p>
+<button id="ex" type="button">Fill in the details with AI</button><span id="st" class="m" aria-live="polite"></span>
+<hr style="border:0;border-top:1px solid var(--l);margin:22px 0 4px">
+<label for="t">Role title</label><input id="t"><label for="o">Organization</label><input id="o">
+<div class="row"><div><label for="c">City</label><input id="c"></div><div><label for="k">Cause</label><select id="k"><option value="">Choose…</option><option>Food security</option><option>Youth leadership</option><option>Education</option><option>Recreation</option><option>Animal welfare</option><option>Social services</option><option>Health</option><option>Environment</option><option>Arts</option><option>Community</option></select></div></div>
+<div class="row"><div><label for="h">Time commitment</label><input id="h"></div><div><label for="a">Minimum age (if stated)</label><input id="a" type="number" min="5" max="25"></div></div>
+<label for="an">Age rules (as the organization states them)</label><input id="an"><label for="u">Application link (https)</label><input id="u" type="url"><label for="d">Short description</label><textarea id="d" rows="3"></textarea>
+<label style="font-weight:400"><input type="checkbox" id="ok" style="width:auto"> These details match the organization’s own posting.</label>
+<p id="er" class="m" aria-live="polite"></p><button id="go" type="button">Submit for review</button></main>
+<script>
+var SB="https://tfzrskibboylxfhsdxwo.supabase.co",KEY="sb_publishable_ZG_CcE0Hufaz9L2BSGnHtw_7uXtE6Nl",$=function(i){return document.getElementById(i)};
+$("ex").onclick=async function(){$("st").textContent=" Reading…";try{var r=await fetch("/api/extract",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:$("txt").value})});var j=await r.json();
+if(!r.ok){$("st").textContent=" "+(j.error||"Something went wrong.");return}
+$("t").value=j.title;$("o").value=j.organization;$("c").value=j.city;$("k").value=j.category;$("h").value=j.hours_note;$("a").value=j.min_age||"";$("an").value=j.age_note;$("u").value=j.apply_url;$("d").value=j.description;$("st").textContent=" Done. Please check every field."}catch(e){$("st").textContent=" Couldn’t reach the AI. Fill the form in by hand."}};
+$("go").onclick=async function(){var er=$("er");er.textContent="";
+if(!$("t").value.trim()||!$("o").value.trim()||!$("c").value.trim()||!$("k").value){er.textContent="Title, organization, city and cause are required.";return}
+if(!$("ok").checked){er.textContent="Please tick the confirmation box.";return}
+try{var r=await fetch(SB+"/rest/v1/rpc/submit_listing",{method:"POST",headers:{apikey:KEY,"Content-Type":"application/json"},body:JSON.stringify({p_title:$("t").value,p_org:$("o").value,p_city:$("c").value,p_category:$("k").value,p_hours:$("h").value,p_min_age:$("a").value?parseInt($("a").value,10):null,p_age_note:$("an").value,p_url:$("u").value,p_desc:$("d").value})});
+var x=await r.json();er.textContent=x==="ok"?"Thank you! A person reviews every listing before it appears.":x==="busy"?"We’re getting a lot of submissions right now. Please try again later.":"Something wasn’t right. Check the details and try again.";if(x==="ok")document.querySelectorAll("input,textarea,select").forEach(function(e){e.value=""})}catch(e){er.textContent="Couldn’t reach the server. Try again."}};
+</script></body></html>
