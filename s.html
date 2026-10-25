@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Confirm volunteer hours · VolunNetBC</title>
+<style>:root{--bg:#FAF8F2;--s:#fff;--t:#10253d;--m:#566779;--l:#e2ddd0;--b:#0F3F73}@media(prefers-color-scheme:dark){:root{--bg:#081a30;--s:#0e2b4b;--t:#f4efe3;--m:#a9b9ca;--l:#1d4570;--b:#F5B03C;color-scheme:dark}}
+body{margin:0;background:var(--bg);color:var(--t);font:17px/1.55 "Source Sans 3",system-ui,sans-serif}main{max-width:520px;margin:0 auto;padding:28px 20px}
+h1{font:700 40px/1 "Barlow Condensed","Arial Narrow",Impact,sans-serif;margin:0 0 10px}input,textarea{width:100%;padding:11px;margin:4px 0 12px;border-radius:8px;border:1px solid var(--l);background:var(--s);color:var(--t);font:inherit}
+button{background:var(--b);color:var(--bg);border:0;border-radius:8px;padding:11px 18px;font:600 16px inherit;cursor:pointer;margin-right:8px}button.g{background:none;color:var(--t);border:1px solid var(--l)}.m{color:var(--m);font-size:15px}.ok{font-weight:600}</style></head><body><main>
+<h1>Confirm volunteer hours</h1><div id="v"><p>Loading…</p></div>
+<p class="m">VolunNetBC never sends you email or asks you to make an account. Only your name and your email’s domain (the part after @) are kept on the student’s record.</p></main>
+<script>
+var SB="https://tfzrskibboylxfhsdxwo.supabase.co",KEY="sb_publishable_ZG_CcE0Hufaz9L2BSGnHtw_7uXtE6Nl",code=location.pathname.split("/").filter(Boolean).pop(),v=document.getElementById("v");
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function rpc(n,b){return fetch(SB+"/rest/v1/rpc/"+n,{method:"POST",headers:{apikey:KEY,"Content-Type":"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json()})}
+function done(t){v.innerHTML='<p class="ok">'+t+'</p>'}
+rpc("get_signoff",{p_code:code}).then(function(r){
+if(!r||!r.length)return done("This link is invalid or has expired.");
+var s=r[0],lo=s.status==="authorized"&&s.letter_requested&&!s.has_letter;
+if(s.status!=="pending"&&!lo)return done("This link has already been used. Thank you!");
+v.innerHTML='<p>A student says they volunteered with <b>'+esc(s.organization)+'</b> as <b>'+esc(s.role_title)+'</b>. '+(lo?'Would you write a short reference letter?':'Please confirm their hours.')+'</p>'+(lo?'':'<label for="n">Your name</label><input id="n" autocomplete="name"><label for="e">Your work email (never stored or used)</label><input id="e" type="email" autocomplete="email"><label for="h">Hours you supervised</label><input id="h" type="number" min="1" max="200"><label><input type="checkbox" id="c" style="width:auto"> I supervised these hours and they are accurate.</label>')+'<label for="l" style="display:block;margin-top:12px">'+(lo?'Reference letter':'Reference letter (optional)')+'</label><textarea id="l" rows="5" placeholder="What did they do, how did they do it, and would you recommend them?"></textarea><p id="er" class="m"></p><button id="go">'+(lo?'Submit letter':'Authorize hours')+'</button>'+(lo?'':'<button class="g" id="no">Decline</button>');
+function send(dec){var e=lo?"":document.getElementById("e").value.trim(),h=lo?null:parseFloat(document.getElementById("h").value),er=document.getElementById("er");
+if(!dec&&!lo&&(!document.getElementById("n").value.trim()||e.indexOf("@")<1||!(h>=1&&h<=200)||!document.getElementById("c").checked)){er.textContent="Please add your name, a valid email, hours between 1 and 200, and tick the box.";return}
+rpc("submit_signoff",{p_code:code,p_name:lo?"":(document.getElementById("n")||{}).value||"",p_email_domain:lo?"":e.split("@")[1]||"",p_hours:h,p_letter:document.getElementById("l").value,p_decline:!!dec}).then(function(x){
+done(x==="authorized"?"Thank you! The hours are confirmed.":x==="letter"?"Thank you! The letter was added.":x==="declined"?"Declined. Thank you for letting us know.":x==="used"?"This link has already been used.":"Something wasn’t right. Check the details and try again.")})}
+document.getElementById("go").onclick=function(){send(false)};var no=document.getElementById("no");if(no)no.onclick=function(){send(true)}
+}).catch(function(){done("Couldn’t reach the server. Please try again.")});
+</script></body></html>
