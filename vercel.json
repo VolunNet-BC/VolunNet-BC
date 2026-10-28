@@ -3,5 +3,8 @@
     { "source": "/s/:code", "destination": "/s.html" },
     { "source": "/status/:ref", "destination": "/status.html" }
   ],
-  "functions": { "api/submit.js": { "maxDuration": 20 } }
+  "functions": {
+    "api/submit.js": { "maxDuration": 25 },
+    "api/process.js": { "maxDuration": 60 }
+  }
 }
