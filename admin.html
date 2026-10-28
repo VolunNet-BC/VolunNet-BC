@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>Reviewer · VolunNetBC</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF8F2;--s:#fff;--t:#10253d;--m:#566779;--l:#d6d0c0;--b:#0F3F73;--bt:#F4EFE3;--ok:#1b6b3a;--bad:#b3261e;--warn:#8a5a00;--warnbg:#fff4d6}
+@media(prefers-color-scheme:dark){:root{--bg:#081a30;--s:#0e2b4b;--t:#f4efe3;--m:#a9b9ca;--l:#2a5582;--b:#F5B03C;--bt:#0F2A4A;--ok:#7be0a0;--bad:#ff9b8f;--warn:#ffd27a;--warnbg:#3a2f12;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 "Source Sans 3",system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:16px 14px 80px}
+h1{font:700 38px/1 "Barlow Condensed","Arial Narrow",Impact,sans-serif;margin:6px 0 12px}
+a{color:var(--b)}input{width:100%;min-height:46px;padding:10px;border-radius:10px;border:1px solid var(--l);background:var(--s);color:var(--t);font:inherit}
+button{background:var(--b);color:var(--bt);border:0;border-radius:10px;min-height:46px;padding:10px 16px;font:600 16px inherit;cursor:pointer;touch-action:manipulation}
+button:active:not(:disabled){transform:scale(.98)}button:disabled{opacity:.55;cursor:progress}button.g{background:none;color:var(--t);border:1px solid var(--l)}button.bad{background:var(--bad);color:#fff}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tabs button{flex:1}.tabs button[aria-pressed=true]{background:var(--b);color:var(--bt)}.tabs button[aria-pressed=false]{background:none;color:var(--t);border:1px solid var(--l)}
+.card{background:var(--s);border:1px solid var(--l);border-radius:12px;padding:14px;margin:12px 0}
+.card h3{margin:0;font-size:19px}.org{color:var(--m);margin:0 0 6px}
+.k{display:grid;grid-template-columns:110px 1fr;gap:2px 10px;font-size:15px;margin:8px 0}.k b{color:var(--m);font-weight:600}.k span{word-break:break-word}
+.pill{display:inline-block;font-weight:600;font-size:13px;padding:2px 10px;border-radius:99px;border:2px solid currentColor;margin-right:6px}
+.pass{color:var(--ok)}.fail{color:var(--bad)}.wait{color:var(--m)}
+.why{background:var(--warnbg);color:var(--warn);border-radius:10px;padding:8px 12px;font-size:15px;margin:8px 0}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.acts input{flex:1 1 200px}
+#msg{min-height:24px;font-weight:600}.m{color:var(--m);font-size:15px}
+</style></head><body><main>
+<h1>Reviewer</h1>
+<div id="login"><label for="tok"><b>Admin token</b></label><input id="tok" type="password" autocomplete="off" autocapitalize="none"><div class="bar"><button id="in" type="button">Open</button></div>
+<p class="m">The token is the ADMIN_TOKEN value from your Vercel settings. It is kept only in this tab.</p></div>
+<div id="app" hidden>
+<div class="bar tabs"><button id="t1" aria-pressed="true" type="button">Waiting</button><button id="t2" aria-pressed="false" type="button">Reported / flagged</button></div>
+<div class="bar"><button id="chk" type="button">Check next batch</button><button id="pub" type="button" class="g">Publish all that passed</button></div>
+<p id="msg" aria-live="polite"></p><div id="list"></div><div class="bar"><button id="more" class="g" type="button" hidden>Load more</button></div>
+</div></main>
+<script>
+var $=function(i){return document.getElementById(i)},tok=sessionStorage.getItem("vt")||"",view="pending",off=0,busy=false;
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function say(t){$("msg").textContent=t||""}
+async function call(path,body){var r=await fetch(path,{method:body?"POST":"GET",headers:{Authorization:"Bearer "+tok,"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});var j=await r.json().catch(function(){return{}});if(r.status===401){sessionStorage.removeItem("vt");$("app").hidden=true;$("login").hidden=false;throw new Error(j.error||"Wrong token")}if(!r.ok)throw new Error(j.error||"Something went wrong");return j}
+$("in").onclick=function(){tok=$("tok").value.trim();sessionStorage.setItem("vt",tok);start()};
+function start(){if(!tok)return;$("login").hidden=true;$("app").hidden=false;load(true)}
+function setTab(v){view=v;$("t1").setAttribute("aria-pressed",v==="pending");$("t2").setAttribute("aria-pressed",v==="flagged");load(true)}
+$("t1").onclick=function(){setTab("pending")};$("t2").onclick=function(){setTab("flagged")};
+async function load(reset){if(reset){off=0;$("list").innerHTML=""}say("Loading…");
+try{var j=await call("/api/review?view="+view+"&offset="+off);say(j.total+" "+(view==="pending"?"waiting · "+j.passed+" passed the automatic check":"flagged"));
+$("pub").textContent="Publish all that passed ("+j.passed+")";$("pub").hidden=view!=="pending";$("chk").hidden=view!=="pending";
+$("list").insertAdjacentHTML("beforeend",j.items.map(card).join("")||(reset?'<p class="m">Nothing here.</p>':""));off+=j.items.length;$("more").hidden=off>=j.total}catch(e){say(e.message)}}
+$("more").onclick=function(){load(false)};
+function card(x){var p=(Array.isArray(x.listing_private)?x.listing_private[0]:x.listing_private)||{},st;
+if(view==="flagged")st='<span class="pill fail">Flagged</span>';else if(p.ai_checked_at)st=p.ai_pass?'<span class="pill pass">Passed checks</span>':'<span class="pill fail">Needs a look</span>';else st='<span class="pill wait">Not checked yet</span>';
+var rep=(x.reports||[]).map(function(r){return esc(r.reason)+(r.note?": "+esc(r.note):"")}).join("<br>");
+return '<article class="card" id="c'+x.id+'"><h3>'+esc(x.title)+'</h3><p class="org">'+esc(x.organization)+' · '+esc(x.city)+'</p><div>'+st+'<span class="pill wait">'+esc(x.source||"")+'</span>'+(p.portal_flag?'<span class="pill fail">Portal link</span>':"")+'</div>'+
+(p.link_note&&view==="pending"?'<div class="why">'+esc(p.link_note).split("; ").join("<br>")+'</div>':"")+(view==="flagged"?'<div class="why">'+(rep||esc(p.flag_reason||"Flagged"))+'</div>':"")+
+'<div class="k"><b>Cause</b><span>'+esc(x.category)+'</span><b>Time</b><span>'+esc(x.hours_note)+'</span><b>Age</b><span>'+esc(x.min_age==null?"":x.min_age+"+ ")+esc(x.age_note)+'</span><b>Link</b><span><a href="'+esc(x.apply_url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.apply_url)+'</a></span>'+(x.description?'<b>About</b><span>'+esc(x.description)+'</span>':"")+'</div>'+
+'<div class="acts">'+(view==="pending"?'<button data-a="approve" data-i="'+x.id+'" type="button">Approve</button><input placeholder="Reason (needed to reject / ask for changes)" aria-label="Reason" id="r'+x.id+'"><button class="g" data-a="changes" data-i="'+x.id+'" type="button">Request changes</button><button class="bad" data-a="reject" data-i="'+x.id+'" type="button">Reject</button>':
+'<button class="g" data-a="dismiss_flag" data-i="'+x.id+'" type="button">Listing is fine</button><button class="bad" data-a="close" data-i="'+x.id+'" type="button">Mark closed</button>')+'</div></article>'}
+$("list").onclick=async function(e){var b=e.target.closest("button[data-a]");if(!b||busy)return;var id=b.dataset.i,a=b.dataset.a,r=$("r"+id)?$("r"+id).value:"";
+if((a==="reject"||a==="changes")&&!r.trim()){say("Add a reason first.");$("r"+id).focus();return}
+busy=true;b.disabled=true;try{await call("/api/review",{action:a,id:id,reason:r});var c=$("c"+id);c.parentNode.removeChild(c);say("Done.");}catch(er){say(er.message);b.disabled=false}busy=false};
+$("pub").onclick=async function(){if(busy)return;if(!confirm("Publish every listing that passed the automatic check? They’ll be labelled “Checked automatically”."))return;busy=true;$("pub").disabled=true;
+try{var j=await call("/api/review",{action:"publish_passed"});say(j.published+" published.");await load(true)}catch(e){say(e.message)}$("pub").disabled=false;busy=false};
+$("chk").onclick=async function(){if(busy)return;busy=true;$("chk").disabled=true;var done=0,fails=0;
+try{for(var n=0;n<60;n++){say("Checking… "+done+" done");var j=await call("/api/process",{limit:8,publish:false});done+=j.results.length;j.results.forEach(function(r){if(!r.pass)fails++});if(!j.results.length||!j.remaining)break}
+say("Checked "+done+". "+(done-fails)+" passed, "+fails+" need a look.");await load(true)}catch(e){say(e.message)}$("chk").disabled=false;busy=false};
+if(tok)start();
+</script></body></html>
