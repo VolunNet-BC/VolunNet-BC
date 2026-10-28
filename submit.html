@@ -1,174 +1,62 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Submit a listing · VolunNetBC</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>Reviewer · VolunNetBC</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
-:root{--bg:#FAF8F2;--s:#fff;--t:#10253d;--m:#566779;--l:#d6d0c0;--b:#0F3F73;--bt:#F4EFE3;--err:#b3261e;--warn:#8a5a00;--warnbg:#fff4d6;--ok:#1b6b3a}
-@media(prefers-color-scheme:dark){:root{--bg:#081a30;--s:#0e2b4b;--t:#f4efe3;--m:#a9b9ca;--l:#2a5582;--b:#F5B03C;--bt:#0F2A4A;--err:#ff9b8f;--warn:#ffd27a;--warnbg:#3a2f12;--ok:#7be0a0;color-scheme:dark}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--t);font:17px/1.55 "Source Sans 3",system-ui,sans-serif;-webkit-text-size-adjust:100%}
-main{max-width:640px;margin:0 auto;padding:20px 18px calc(60px + env(safe-area-inset-bottom))}
-h1{font:700 44px/1 "Barlow Condensed","Arial Narrow",Impact,sans-serif;margin:8px 0 10px}
-h2{font:700 28px/1.1 "Barlow Condensed","Arial Narrow",Impact,sans-serif;margin:0 0 4px}
-a{color:var(--b)}a.back{display:inline-block;padding:10px 0;min-height:44px}
-fieldset{border:1px solid var(--l);border-radius:12px;margin:18px 0;padding:16px 16px 14px;background:var(--s)}
-legend{padding:0 6px}
-label{display:block;font-weight:600;margin-top:14px}label:first-of-type{margin-top:0}
-.hint{font-weight:400;color:var(--m);font-size:15px}
-input,textarea,select{width:100%;min-height:48px;padding:12px;margin:5px 0 0;border-radius:10px;border:1px solid var(--l);background:var(--bg);color:var(--t);font:inherit;font-size:16px}
-textarea{min-height:96px;resize:vertical}
-input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,.cf-turnstile:focus-visible{outline:3px solid var(--b);outline-offset:2px}
-input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true]{border-color:var(--err);border-width:2px}
-.err{color:var(--err);font-size:15px;font-weight:600;margin:6px 0 0;min-height:0}
-.err:empty{display:none}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.row{grid-template-columns:1fr}}
-.m{color:var(--m);font-size:15px}
-button{background:var(--b);color:var(--bt);border:0;border-radius:10px;min-height:48px;padding:12px 20px;font:600 17px inherit;cursor:pointer;touch-action:manipulation;transition:transform .08s,opacity .15s}
-button:active:not(:disabled){transform:scale(.98);opacity:.9}
-button:disabled{opacity:.6;cursor:progress}
-button.g{background:none;color:var(--t);border:1px solid var(--l)}
-button.big{width:100%;margin-top:14px}
-.fn{margin:8px 0 0;padding:10px 12px;border-radius:10px;background:var(--warnbg);color:var(--warn);font-size:15px;display:none}
-.fn.show{display:block}.fn b{display:block;margin-bottom:2px}
-.fn q{display:block;color:var(--t);font-style:normal;margin-top:4px;padding-left:10px;border-left:3px solid var(--warn)}
-.cf{display:flex;gap:12px;align-items:flex-start;margin-top:14px;font-weight:400;padding:10px 12px;border:1px dashed var(--l);border-radius:10px;min-height:48px}
-.cf input{width:24px;min-height:24px;height:24px;margin:2px 0 0;flex:none}
-.notice{padding:10px 12px;border-radius:10px;background:var(--warnbg);color:var(--warn);font-size:15px;margin-top:10px}
-.privacy{border-left:4px solid var(--b);padding:8px 12px;background:var(--s);border-radius:0 10px 10px 0;margin:8px 0}
-#st{display:block;margin-top:8px}
-.ok{color:var(--ok);font-weight:600}
-.ref{font:700 30px/1.1 "Barlow Condensed",sans-serif;letter-spacing:.04em;word-break:break-all;background:var(--s);border:1px solid var(--l);border-radius:10px;padding:12px;margin:10px 0}
-#cf{margin-top:14px;min-height:65px}
+:root{--bg:#FAF8F2;--s:#fff;--t:#10253d;--m:#566779;--l:#d6d0c0;--b:#0F3F73;--bt:#F4EFE3;--ok:#1b6b3a;--bad:#b3261e;--warn:#8a5a00;--warnbg:#fff4d6}
+@media(prefers-color-scheme:dark){:root{--bg:#081a30;--s:#0e2b4b;--t:#f4efe3;--m:#a9b9ca;--l:#2a5582;--b:#F5B03C;--bt:#0F2A4A;--ok:#7be0a0;--bad:#ff9b8f;--warn:#ffd27a;--warnbg:#3a2f12;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 "Source Sans 3",system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:16px 14px 80px}
+h1{font:700 38px/1 "Barlow Condensed","Arial Narrow",Impact,sans-serif;margin:6px 0 12px}
+a{color:var(--b)}input{width:100%;min-height:46px;padding:10px;border-radius:10px;border:1px solid var(--l);background:var(--s);color:var(--t);font:inherit}
+button{background:var(--b);color:var(--bt);border:0;border-radius:10px;min-height:46px;padding:10px 16px;font:600 16px inherit;cursor:pointer;touch-action:manipulation}
+button:active:not(:disabled){transform:scale(.98)}button:disabled{opacity:.55;cursor:progress}button.g{background:none;color:var(--t);border:1px solid var(--l)}button.bad{background:var(--bad);color:#fff}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tabs button{flex:1}.tabs button[aria-pressed=true]{background:var(--b);color:var(--bt)}.tabs button[aria-pressed=false]{background:none;color:var(--t);border:1px solid var(--l)}
+.card{background:var(--s);border:1px solid var(--l);border-radius:12px;padding:14px;margin:12px 0}
+.card h3{margin:0;font-size:19px}.org{color:var(--m);margin:0 0 6px}
+.k{display:grid;grid-template-columns:110px 1fr;gap:2px 10px;font-size:15px;margin:8px 0}.k b{color:var(--m);font-weight:600}.k span{word-break:break-word}
+.pill{display:inline-block;font-weight:600;font-size:13px;padding:2px 10px;border-radius:99px;border:2px solid currentColor;margin-right:6px}
+.pass{color:var(--ok)}.fail{color:var(--bad)}.wait{color:var(--m)}
+.why{background:var(--warnbg);color:var(--warn);border-radius:10px;padding:8px 12px;font-size:15px;margin:8px 0}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.acts input{flex:1 1 200px}
+#msg{min-height:24px;font-weight:600}.m{color:var(--m);font-size:15px}
 </style></head><body><main>
-<a class="back" href="/">← Back to roles</a><h1>Submit a listing</h1>
-<p>Paste a volunteer posting from an organization’s own page and the AI will draft the details, or fill the form in by hand. Either way, you check each section against the posting, and we review every listing before it goes live.</p>
-
-<div id="form">
-<label for="txt">Posting text <span class="hint">(optional)</span></label>
-<textarea id="txt" rows="7" placeholder="Paste the full posting here" autocomplete="off"></textarea>
-<p class="privacy m"><b>Privacy:</b> the text you paste is sent to Google’s Gemini AI to read it. Don’t paste personal information. Your account data is never sent to the AI.</p>
-<button id="ex" type="button" class="g">Draft the details with AI</button>
-<span id="st" class="m" aria-live="polite"></span>
-<p class="m">The AI can make mistakes, especially with hours, ages and names. Treat what it fills in as a draft to check.</p>
-
-<fieldset><legend><h2>Role and organization</h2></legend>
-<label for="t">Role title</label><input id="t" maxlength="120" autocomplete="off"><p class="fn" id="n-t"></p><p class="err" id="e-title"></p>
-<label for="o">Organization</label><input id="o" maxlength="120" autocomplete="organization"><p class="fn" id="n-o"></p><p class="err" id="e-org"></p>
-<div class="row"><div><label for="c">City</label><select id="c"><option value="">Choose…</option></select><p class="err" id="e-city"></p></div>
-<div><label for="k">Cause</label><select id="k"><option value="">Choose…</option><option>Food security</option><option>Youth leadership</option><option>Education</option><option>Recreation</option><option>Animal welfare</option><option>Social services</option><option>Health</option><option>Mental Health</option><option>Community Safety</option><option>Environment</option><option>Arts</option><option>Community</option></select><p class="err" id="e-cause"></p></div></div>
-<div id="cow" hidden><label for="co">Which city? <span class="hint">(a reviewer will check it)</span></label><input id="co" maxlength="60" autocomplete="off"></div>
-<label class="cf" for="cfRole"><input type="checkbox" id="cfRole"><span>I checked the title, organization, city and cause against the organization’s own posting.</span></label>
-</fieldset>
-
-<fieldset><legend><h2>Time commitment</h2></legend>
-<label for="h">How much time does the role ask for? <span class="hint">Include the full wording: hours, days, length of term.</span></label>
-<textarea id="h" rows="2" maxlength="200"></textarea><p class="fn" id="n-h"></p><p class="err" id="e-hours"></p>
-<label class="cf" for="cfHours"><input type="checkbox" id="cfHours"><span>The time commitment is complete and matches the posting.</span></label>
-</fieldset>
-
-<fieldset><legend><h2>Age rules</h2></legend>
-<div class="row"><div><label for="a">Minimum age <span class="hint">(if stated)</span></label><input id="a" type="number" inputmode="numeric" pattern="[0-9]*" min="5" max="25"><p class="err" id="e-age"></p></div><div></div></div>
-<label for="an">Age rules, as the organization states them</label>
-<textarea id="an" rows="2" maxlength="200"></textarea><p class="fn" id="n-a"></p>
-<p class="notice" id="adult" hidden>Roles for age 19 and up are shown as college/adult roles and are left out of the 13-18 filter.</p>
-<label class="cf" for="cfAge"><input type="checkbox" id="cfAge"><span>The age rules are complete and match the posting.</span></label>
-<p class="err" id="e-confirm"></p>
-</fieldset>
-
-<fieldset><legend><h2>Link and details</h2></legend>
-<label for="u">Application link</label><input id="u" type="url" inputmode="url" autocapitalize="none" autocomplete="off" placeholder="https://">
-<p class="m" style="margin:6px 0 0">Link to the page for this role, not the organization’s homepage. We check that it works.</p><p class="err" id="e-url"></p>
-<label for="d">Short description</label><textarea id="d" rows="3" maxlength="500"></textarea>
-<label for="em">Organization contact email <span class="hint">(optional)</span></label><input id="em" type="email" inputmode="email" autocomplete="email" autocapitalize="none">
-<p class="m" style="margin:6px 0 0">Never shown on the site. Used only to email a reminder before the listing expires, with a one-click renew. Without it, the listing simply expires after 90 days.</p><p class="err" id="e-email"></p>
-</fieldset>
-
-<div id="cf" class="cf-turnstile" data-sitekey="0x4AAAAAAFo215lIqJNP5zPS" data-callback="capOk" data-expired-callback="capGone" data-error-callback="capGone"></div>
-<p class="err" id="e-captcha"></p>
-<button id="go" type="button" class="big">Submit for review</button>
-<p class="err" id="er" role="alert" style="text-align:center"></p>
-</div>
-
-<div id="done" hidden>
-<h2 class="ok" style="font-size:36px">Thank you!</h2>
-<p>Your listing is waiting for review. A person or an automatic check reviews every listing before it appears. Keep this reference to check its status later. You don’t need an account.</p>
-<div class="ref" id="ref"></div>
-<p><a id="sl" href="#">Check status</a> · <button type="button" class="g" id="cp" style="min-height:44px;padding:8px 14px">Copy reference</button></p>
-<div id="warns"></div>
-<p><a href="/">Back to roles</a> · <a href="/submit.html">Submit another</a></p>
-</div>
-</main>
+<h1>Reviewer</h1>
+<div id="login"><label for="tok"><b>Admin token</b></label><input id="tok" type="password" autocomplete="off" autocapitalize="none"><div class="bar"><button id="in" type="button">Open</button></div>
+<p class="m">The token is the ADMIN_TOKEN value from your Vercel settings. It is kept only in this tab.</p></div>
+<div id="app" hidden>
+<div class="bar tabs"><button id="t1" aria-pressed="true" type="button">Waiting</button><button id="t2" aria-pressed="false" type="button">Reported / flagged</button></div>
+<div class="bar"><button id="chk" type="button">Check next batch</button><button id="pub" type="button" class="g">Publish all that passed</button></div>
+<p id="msg" aria-live="polite"></p><div id="list"></div><div class="bar"><button id="more" class="g" type="button" hidden>Load more</button></div>
+</div></main>
 <script>
-var SB="https://tfzrskibboylxfhsdxwo.supabase.co",KEY="sb_publishable_ZG_CcE0Hufaz9L2BSGnHtw_7uXtE6Nl",$=function(i){return document.getElementById(i)};
-var token="",aiUsed=false;
-function capOk(t){token=t;$("e-captcha").textContent=""}
-function capGone(){token=""}
-function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-
-/* City dropdown from the database, with a built-in fallback */
-(function(){var fb=["Vancouver","Burnaby","Surrey","Richmond","Coquitlam","North Vancouver"];
-function fill(list){var s=$("c");list.forEach(function(n){var o=document.createElement("option");o.textContent=n;s.appendChild(o)});var o=document.createElement("option");o.textContent="Other";o.value="__other";s.appendChild(o)}
-fetch(SB+"/rest/v1/covered_cities?select=name&order=sort.asc,name.asc",{headers:{apikey:KEY}}).then(function(r){return r.json()}).then(function(j){fill(Array.isArray(j)&&j.length?j.map(function(x){return x.name}):fb)}).catch(function(){fill(fb)})})();
-$("c").onchange=function(){var o=$("c").value==="__other";$("cow").hidden=!o;if(o)$("co").focus()};
-$("a").oninput=function(){$("adult").hidden=!($("a").value&&+$("a").value>=19)};
-
-/* ---------- AI draft: ask the AI, then compare it with the pasted posting ---------- */
-$("ex").onclick=async function(){var b=$("ex");if(($("txt").value||"").trim().length<40){$("st").textContent="Paste the posting first (at least a couple of sentences).";return}
-b.disabled=true;$("st").textContent="Reading the posting…";
-try{var r=await fetch("/api/extract",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:$("txt").value})});var j=await r.json();
-if(!r.ok){$("st").textContent=(j.error||"The AI couldn’t help right now.")+" You can fill the form in by hand.";return}
-$("t").value=j.title;$("o").value=j.organization;$("k").value=j.category;$("h").value=j.hours_note;$("a").value=j.min_age||"";$("an").value=j.age_note;$("u").value=j.apply_url;$("d").value=j.description;
-setCity(j.city);$("a").oninput();aiUsed=true;compare();
-$("st").textContent="Draft filled in. Check each section against the posting below.";}
-catch(e){$("st").textContent="Couldn’t reach the AI. You can fill the form in by hand."}finally{b.disabled=false}};
-function setCity(c){var s=$("c"),f=false;if(!c)return;for(var i=0;i<s.options.length;i++)if(s.options[i].text.toLowerCase()===c.toLowerCase()){s.selectedIndex=i;f=true;break}
-if(!f){s.value="__other";$("cow").hidden=false;$("co").value=c}}
-
-function nrm(s){return String(s||"").toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/\s+/g," ").trim()}
-function nums(s){return (String(s).match(/\d+(?:\.\d+)?/g)||[])}
-function sents(t){return String(t).split(/(?<=[.!?])\s+|\n+/).map(function(x){return x.trim()}).filter(Boolean)}
-var HOUR=/hours?|hrs?\b|week|month|shift|commit|day|session|term|semester|per\b|each\b/i,AGE=/\bage[sd]?\b|years? old|\d+\s*\+|\bminimum\b|must be \d|\bunder \d|\bover \d|\b\d+\s*(?:years|yrs)\b|\bgrade\b|\bminor|parent|guardian/i;
-function show(id,title,quotes){var e=$(id);if(!title){e.className="fn";e.innerHTML="";return}
-e.className="fn show";e.innerHTML="<b>"+esc(title)+"</b>"+(quotes||[]).slice(0,3).map(function(q){return"<q>"+esc(q.length>240?q.slice(0,240)+"…":q)+"</q>"}).join("")}
-function compare(){var text=$("txt").value;if(text.trim().length<40){["n-t","n-o","n-h","n-a"].forEach(function(i){show(i)});return}
-var T=nrm(text);
-function exact(id,val,label){var v=nrm(val);if(!v){show(id);return}
-if(T.indexOf(v)>-1){show(id);return}
-var w=v.split(" ").filter(function(x){return x.length>2}),hit=w.filter(function(x){return T.indexOf(x)>-1}).length;
-show(id,label+" isn’t written exactly like this in the posting"+(w.length&&hit<w.length?" (some words don’t appear at all)":"")+". Check it.")}
-exact("n-t",$("t").value,"The title");exact("n-o",$("o").value,"The organization");
-function numeric(id,val,re,label,needDigit){var S=sents(text).filter(function(x){return re.test(x)&&(!needDigit||/\d/.test(x))});
-var pn=nums(S.join(" ")),vn=nums(val),miss=pn.filter(function(x){return vn.indexOf(x)<0}),extra=vn.filter(function(x){return nums(text).indexOf(x)<0});
-if(!val.trim()&&S.length){show(id,label+" is empty, but the posting says:",S);return}
-if(extra.length){show(id,"“"+extra.join("”, “")+"” doesn’t appear in the posting. The posting says:",S);return}
-if(miss.length){show(id,"The posting also mentions "+miss.slice(0,4).join(", ")+" which isn’t in your entry. It may have been shortened. The posting says:",S);return}
-show(id)}
-numeric("n-h",$("h").value,HOUR,"Time commitment",true);
-numeric("n-a",($("a").value?$("a").value+" ":"")+$("an").value,AGE,"Age rules",false)}
-["t","o","h","a","an","txt"].forEach(function(i){$(i).addEventListener("input",function(){if($("txt").value.trim().length>=40)compare()})});
-
-/* ---------- Submit ---------- */
-function setErr(k,msg){var m={title:"t",org:"o",city:"c",cause:"k",hours:"h",age:"a",url:"u",email:"em"};var e=$("e-"+k);if(e)e.textContent=msg||"";if(m[k])$(m[k]).setAttribute("aria-invalid",msg?"true":"false")}
-function clearErrs(){["title","org","city","cause","hours","age","url","email","captcha","confirm"].forEach(function(k){setErr(k,"")});$("er").textContent=""}
-function firstErr(){var e=document.querySelector("[aria-invalid=true]")||document.querySelector(".err:not(:empty)");if(e){e.scrollIntoView({block:"center",behavior:"smooth"});if(e.focus)e.focus()}}
-$("go").onclick=async function(){clearErrs();var b=$("go"),bad=false;
-var city=$("c").value==="__other"?$("co").value.trim():$("c").value;
-function need(k,v,m){if(!String(v||"").trim()){setErr(k,m);bad=true}}
-need("title",$("t").value,"Enter the role title.");need("org",$("o").value,"Enter the organization.");need("city",city,$("c").value==="__other"?"Enter the city.":"Choose a city.");need("cause",$("k").value,"Choose a cause.");need("hours",$("h").value,"Enter the time commitment.");
-if(!/^https:\/\/\S+\.\S+/.test($("u").value.trim())){setErr("url","Enter a full link starting with https://");bad=true}
-var ag=$("a").value;if(ag&&(+ag<5||+ag>25)){setErr("age","Minimum age must be between 5 and 25.");bad=true}
-if(!($("cfRole").checked&&$("cfHours").checked&&$("cfAge").checked)){setErr("confirm","Please tick all three confirmations after checking the posting.");bad=true}
-if(!token){setErr("captcha","Please complete the check above.");bad=true}
-if(bad){firstErr();return}
-b.disabled=true;b.textContent="Checking and submitting…";
-try{var r=await fetch("/api/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({captcha:token,title:$("t").value,organization:$("o").value,city:city,city_other:$("c").value==="__other",category:$("k").value,hours_note:$("h").value,min_age:ag||null,age_note:$("an").value,apply_url:$("u").value.trim(),description:$("d").value,contact_email:$("em").value,ai_used:aiUsed,confirm:{role:$("cfRole").checked,hours:$("cfHours").checked,age:$("cfAge").checked}})});
-var j=await r.json().catch(function(){return{}});
-if(r.ok&&j.ok){$("form").hidden=true;$("done").hidden=false;$("ref").textContent=j.ref;$("sl").href="/status/"+j.ref;
-$("warns").innerHTML=(j.warnings&&j.warnings.length)?'<div class="notice"><b>A reviewer will look closely at:</b><br>'+j.warnings.map(esc).join("<br>")+"</div>":"";
-$("cp").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(j.ref).then(function(){$("cp").textContent="Copied"})};window.scrollTo(0,0);return}
-if(j.errors){var m={org:"org",organization:"org",hours:"hours",ageNote:"age",desc:"",email:"email"};Object.keys(j.errors).forEach(function(k){setErr(m[k]!==undefined?(m[k]||"confirm"):k,j.errors[k])});if(j.errors.captcha&&window.turnstile){turnstile.reset();token=""}firstErr()}
-else{$("er").textContent=j.error||"Something wasn’t right. Check the details and try again."}
-if(window.turnstile&&!j.ok){try{turnstile.reset();token=""}catch(e){}}}
-catch(e){$("er").textContent="Couldn’t reach the server. Check your connection and try again."}
-finally{b.disabled=false;b.textContent="Submit for review"}};
+var $=function(i){return document.getElementById(i)},tok=sessionStorage.getItem("vt")||"",view="pending",off=0,busy=false;
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function say(t){$("msg").textContent=t||""}
+async function call(path,body){var r=await fetch(path,{method:body?"POST":"GET",headers:{Authorization:"Bearer "+tok,"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});var j=await r.json().catch(function(){return{}});if(r.status===401){sessionStorage.removeItem("vt");$("app").hidden=true;$("login").hidden=false;throw new Error(j.error||"Wrong token")}if(!r.ok)throw new Error(j.error||"Something went wrong");return j}
+$("in").onclick=function(){tok=$("tok").value.trim();sessionStorage.setItem("vt",tok);start()};
+function start(){if(!tok)return;$("login").hidden=true;$("app").hidden=false;load(true)}
+function setTab(v){view=v;$("t1").setAttribute("aria-pressed",v==="pending");$("t2").setAttribute("aria-pressed",v==="flagged");load(true)}
+$("t1").onclick=function(){setTab("pending")};$("t2").onclick=function(){setTab("flagged")};
+async function load(reset){if(reset){off=0;$("list").innerHTML=""}say("Loading…");
+try{var j=await call("/api/review?view="+view+"&offset="+off);say(j.total+" "+(view==="pending"?"waiting · "+j.passed+" passed the automatic check":"flagged"));
+$("pub").textContent="Publish all that passed ("+j.passed+")";$("pub").hidden=view!=="pending";$("chk").hidden=view!=="pending";
+$("list").insertAdjacentHTML("beforeend",j.items.map(card).join("")||(reset?'<p class="m">Nothing here.</p>':""));off+=j.items.length;$("more").hidden=off>=j.total}catch(e){say(e.message)}}
+$("more").onclick=function(){load(false)};
+function card(x){var p=(Array.isArray(x.listing_private)?x.listing_private[0]:x.listing_private)||{},st;
+if(view==="flagged")st='<span class="pill fail">Flagged</span>';else if(p.ai_checked_at)st=p.ai_pass?'<span class="pill pass">Passed checks</span>':'<span class="pill fail">Needs a look</span>';else st='<span class="pill wait">Not checked yet</span>';
+var rep=(x.reports||[]).map(function(r){return esc(r.reason)+(r.note?": "+esc(r.note):"")}).join("<br>");
+return '<article class="card" id="c'+x.id+'"><h3>'+esc(x.title)+'</h3><p class="org">'+esc(x.organization)+' · '+esc(x.city)+'</p><div>'+st+'<span class="pill wait">'+esc(x.source||"")+'</span>'+(p.portal_flag?'<span class="pill fail">Portal link</span>':"")+'</div>'+
+(p.link_note&&view==="pending"?'<div class="why">'+esc(p.link_note).split("; ").join("<br>")+'</div>':"")+(view==="flagged"?'<div class="why">'+(rep||esc(p.flag_reason||"Flagged"))+'</div>':"")+
+'<div class="k"><b>Cause</b><span>'+esc(x.category)+'</span><b>Time</b><span>'+esc(x.hours_note)+'</span><b>Age</b><span>'+esc(x.min_age==null?"":x.min_age+"+ ")+esc(x.age_note)+'</span><b>Link</b><span><a href="'+esc(x.apply_url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.apply_url)+'</a></span>'+(x.description?'<b>About</b><span>'+esc(x.description)+'</span>':"")+'</div>'+
+'<div class="acts">'+(view==="pending"?'<button data-a="approve" data-i="'+x.id+'" type="button">Approve</button><input placeholder="Reason (needed to reject / ask for changes)" aria-label="Reason" id="r'+x.id+'"><button class="g" data-a="changes" data-i="'+x.id+'" type="button">Request changes</button><button class="bad" data-a="reject" data-i="'+x.id+'" type="button">Reject</button>':
+'<button class="g" data-a="dismiss_flag" data-i="'+x.id+'" type="button">Listing is fine</button><button class="bad" data-a="close" data-i="'+x.id+'" type="button">Mark closed</button>')+'</div></article>'}
+$("list").onclick=async function(e){var b=e.target.closest("button[data-a]");if(!b||busy)return;var id=b.dataset.i,a=b.dataset.a,r=$("r"+id)?$("r"+id).value:"";
+if((a==="reject"||a==="changes")&&!r.trim()){say("Add a reason first.");$("r"+id).focus();return}
+busy=true;b.disabled=true;try{await call("/api/review",{action:a,id:id,reason:r});var c=$("c"+id);c.parentNode.removeChild(c);say("Done.");}catch(er){say(er.message);b.disabled=false}busy=false};
+$("pub").onclick=async function(){if(busy)return;if(!confirm("Publish every listing that passed the automatic check? They’ll be labelled “Checked automatically”."))return;busy=true;$("pub").disabled=true;
+try{var j=await call("/api/review",{action:"publish_passed"});say(j.published+" published.");await load(true)}catch(e){say(e.message)}$("pub").disabled=false;busy=false};
+$("chk").onclick=async function(){if(busy)return;busy=true;$("chk").disabled=true;var done=0,fails=0;
+try{for(var n=0;n<60;n++){say("Checking… "+done+" done");var j=await call("/api/process",{limit:8,publish:false});done+=j.results.length;j.results.forEach(function(r){if(!r.pass)fails++});if(!j.results.length||!j.remaining)break}
+say("Checked "+done+". "+(done-fails)+" passed, "+fails+" need a look.");await load(true)}catch(e){say(e.message)}$("chk").disabled=false;busy=false};
+if(tok)start();
 </script></body></html>
