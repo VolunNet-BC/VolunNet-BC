@@ -56,7 +56,7 @@ busy=true;b.disabled=true;try{await call("/api/review",{action:a,id:id,reason:r}
 $("pub").onclick=async function(){if(busy)return;if(!confirm("Publish every listing that passed the automatic check? They’ll be labelled “Checked automatically”."))return;busy=true;$("pub").disabled=true;
 try{var j=await call("/api/review",{action:"publish_passed"});say(j.published+" published.");await load(true)}catch(e){say(e.message)}$("pub").disabled=false;busy=false};
 $("chk").onclick=async function(){if(busy)return;busy=true;$("chk").disabled=true;var done=0,fails=0;
-try{for(var n=0;n<60;n++){say("Checking… "+done+" done");var j=await call("/api/process",{limit:8,publish:false});done+=j.results.length;j.results.forEach(function(r){if(!r.pass)fails++});if(!j.results.length||!j.remaining)break}
+try{for(var n=0;n<60;n++){say("Checking… "+done+" done");var j=await call("/api/process",{limit:8});done+=j.results.length;j.results.forEach(function(r){if(!r.pass)fails++});if(!j.results.length||!j.remaining)break}
 say("Checked "+done+". "+(done-fails)+" passed, "+fails+" need a look.");await load(true)}catch(e){say(e.message)}$("chk").disabled=false;busy=false};
 if(tok)start();
 </script></body></html>
