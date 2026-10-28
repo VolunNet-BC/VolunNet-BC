@@ -92,8 +92,9 @@ function classify(startUrl, res) {
 module.exports = async function (req, res) {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
-  if (!process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.TURNSTILE_SECRET)
-    return res.status(500).json({ error: "The server isn’t set up yet." });
+  const missing = ["SUPABASE_SERVICE_ROLE_KEY", "TURNSTILE_SECRET"].filter((n) => !process.env[n]);
+  if (missing.length)
+    return res.status(500).json({ error: "The server isn’t set up yet. Missing: " + missing.join(", ") + "." });
 
   let b = {};
   try { b = typeof req.body === "string" ? JSON.parse(req.body) : req.body || {}; } catch (e) {}
