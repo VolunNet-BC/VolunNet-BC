@@ -1,1 +1,7 @@
-{"rewrites":[{"source":"/s/:code","destination":"/s.html"}]}
+{
+  "rewrites": [
+    { "source": "/s/:code", "destination": "/s.html" },
+    { "source": "/status/:ref", "destination": "/status.html" }
+  ],
+  "functions": { "api/submit.js": { "maxDuration": 20 } }
+}
